@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": "410b",
+      "name": "Janbolat",
+      "email": "janbolat@gmail.com",
+      "password": "Janbolat",
+      "role": "employer",
+      "createdAt": "2026-02-05T18:10:15.877Z"
+    },
+    {
+      "id": "96dd",
+      "name": "Janbolat",
+      "email": "janbolatique.kz@gmail.com",
+      "password": "Janbolatique",
+      "role": "candidate",
+      "createdAt": "2026-02-06T21:16:07.072Z"
+    }
+  ],
+  "auth": {
+    "login": {
+      "message": "mock login success"
+    },
+    "register": {
+      "message": "mock register success"
+    }
+  }
+}

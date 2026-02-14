@@ -1,0 +1,54 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+.DS_Store
+dist
+dist-ssr
+coverage
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+*.tsbuildinfo
+
+.eslintcache
+
+# Cypress
+/cypress/videos/
+/cypress/screenshots/
+
+# Vitest
+__screenshots__/
+
+# Vite
+*.timestamp-*-*.mjs
+
+# Датасеты и большие файлы
+ml/data/raw/**/*.csv
+ml/data/raw/**/*.zip
+ml/data/raw/linkedin-jobs/*
+ml/data/raw/headhunter-vacancies/*
+
+# Игнорируем большие файлы и ненужное для GitHub
+ml/data/raw/
+*.csv
+*.zip
+*.pkl
+.venv/
+node_modules/
+dist/
