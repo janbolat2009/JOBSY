@@ -52,3 +52,15 @@ ml/data/raw/
 .venv/
 node_modules/
 dist/
+
+backend/.env
+.env
+*.env
+
+
+ml/data/raw/
+*.csv
+*.zip
+.venv/
+node_modules/
+dist/
