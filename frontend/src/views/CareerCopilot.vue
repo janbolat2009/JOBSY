@@ -280,7 +280,7 @@ const analyzeProfile = async () => {
   
   if (profile) {
     // 2. Call backend to analyze (Mock for now, will connect to Python ML later)
-    // const res = await fetch('http://localhost:3000/api/career/analyze', {
+    // const res = await fetch('/api/career/analyze', {
     //   method: 'POST',
     //   headers: { 'Content-Type': 'application/json' },
     //   body: JSON.stringify({ user_profile: profile })

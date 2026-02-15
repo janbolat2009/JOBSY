@@ -232,9 +232,9 @@ const analyzeResume = async () => {
   analysis.value = null
 
   try {
-    const response = await fetch('http://localhost:3000/api/resume-analysis/analyze-resume', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch('/api/resume-analysis/analyze-resume', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         resume_text: resumeText.value,
         target_job: targetJob.value || null,

@@ -187,7 +187,7 @@ const statusFilter = ref('all')
 const applications = ref([])
 const selectedApp = ref(null)
 
-const API_BASE = 'http://localhost:3000/api'
+const API_BASE = '/api'
 
 const getStatusClass = (status) => {
   const classes = { pending: 'bg-gray-500/20 text-gray-400', approved: 'bg-primary/20 text-primary', rejected: 'bg-red-500/20 text-red-400', interview: 'bg-secondary/20 text-secondary' }

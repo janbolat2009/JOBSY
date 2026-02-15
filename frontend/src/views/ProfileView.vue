@@ -141,7 +141,7 @@ const editingAbout = ref(false)
 const editedAbout = ref('')
 const editingMain = ref(false)
 
-const API_BASE = 'http://localhost:3000/api'
+const API_BASE = '/api'
 
 const loadProfile = async () => {
   if (!user.value?.id) return

@@ -238,7 +238,7 @@ const applications = ref([])
 const profileCompletion = ref(0)
 const unreadMessages = ref(0)
 
-const API_BASE = 'http://localhost:3000/api'
+const API_BASE = '/api'
 
 const loadApplications = async () => {
   if (!user.value?.id) return
