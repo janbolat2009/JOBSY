@@ -200,6 +200,8 @@ const authStore = useAuthStore()
 const user = computed(() => authStore.user)
 const initials = computed(() => (user.value?.name || 'C').slice(0, 2).toUpperCase())
 
+const API_BASE = '/api'
+
 const loading = ref(true)
 const loadingCandidates = ref(false)
 const showCreateJob = ref(false)
