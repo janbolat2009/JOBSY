@@ -11,17 +11,22 @@ import profileRoutes from '../backend/routes/profile.js'
 import salaryRoutes from '../backend/routes/salary.js'
 import careerRoutes from '../backend/routes/career.js'
 
-const app = express()
+const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY
 
-const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_KEY
-)
+const supabase = (supabaseUrl && supabaseKey)
+    ? createClient(supabaseUrl, supabaseKey)
+    : null
+
+const app = express()
 
 app.use(cors())
 app.use(express.json())
 
 app.use((req, res, next) => {
+    if (!supabase) {
+        return res.status(500).json({ error: 'Supabase client not initialized. Check your environment variables.' })
+    }
     req.supabase = supabase
     next()
 })
