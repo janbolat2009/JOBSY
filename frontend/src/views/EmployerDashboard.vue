@@ -225,8 +225,13 @@ const generateWithAI = async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ brief: aiBrief.value })
     })
+    
+    if (!res.ok) {
+        throw new Error(`Server returned ${res.status}`)
+    }
+
     const data = await res.json()
-    if (data.title) {
+    if (data && data.title) {
       newJob.value.title = data.title
       newJob.value.description = data.description
       newJob.value.experience_years = data.experience_years || 2
@@ -244,7 +249,8 @@ const generateWithAI = async () => {
       updateSalaryEstimate()
     }
   } catch (e) {
-    console.error(e)
+    console.error('AI Suggestion Error:', e)
+    alert('Не удалось связаться с AI-ассистентом. Попробуйте обновить страницу или заполните вручную.')
   } finally {
     generating.value = false
   }
