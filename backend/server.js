@@ -11,19 +11,14 @@ import interviewRoutes from './routes/interview.js'
 import profileRoutes from './routes/profile.js'
 import salaryRoutes from './routes/salary.js'
 import careerRoutes from './routes/career.js'
-import path from 'path'
-import { fileURLToPath } from 'url'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
-  console.error('Ошибка: SUPABASE_URL или SUPABASE_SERVICE_KEY не заданы в .env')
+  console.error('Ошибка: SUPABASE_URL или SUPABASE_SERVICE_KEY не заданы')
   process.exit(1)
 }
 
 if (!process.env.OPENAI_API_KEY) {
-  console.error('Ошибка: OPENAI_API_KEY не задан в .env')
+  console.error('Ошибка: OPENAI_API_KEY не задан')
   process.exit(1)
 }
 
@@ -62,17 +57,4 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' })
 })
 
-// Serve static files from the Vue app build directory
-const distPath = path.join(__dirname, '../frontend/dist')
-app.use(express.static(distPath))
-
-// Handle SPA routing: redirect all non-API requests to index.html
-app.get('*', (req, res) => {
-  if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(distPath, 'index.html'))
-  }
-})
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+export default app

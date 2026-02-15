@@ -1,9 +1,8 @@
 {
-    "name": "jobsy-backend",
+    "name": "jobsy",
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "start": "cd backend && node server.js"
-    },
-    "dependencies": {}
+        "build": "cd frontend && npm install && npm run build"
+    }
 }

@@ -158,6 +158,7 @@ const initials = computed(() => {
   return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
 })
 
+
 const resumeText = ref('')
 const targetJob = ref('')
 const experienceYears = ref(0)
@@ -165,6 +166,7 @@ const uploadedFileName = ref('')
 const analyzing = ref(false)
 const analysis = ref(null)
 const error = ref('')
+const API_BASE = '/api'
 
 const extractTextFromPDF = async (file) => {
   return new Promise((resolve, reject) => {
