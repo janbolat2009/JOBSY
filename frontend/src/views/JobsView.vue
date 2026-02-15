@@ -106,6 +106,7 @@ const initials = computed(() => {
 })
 
 const loading = ref(true)
+const API_BASE = '/api'
 const jobs = ref([])
 const searchQuery = ref('')
 const locationFilter = ref('')

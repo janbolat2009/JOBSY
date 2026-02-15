@@ -126,7 +126,8 @@ import { supabase } from '@/lib/supabase'
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
-const user = computed(() => authStore.user)
+const userRole = computed(() => authStore.user?.role)
+const API_BASE = '/api'
 
 const loading = ref(true)
 const job = ref(null)

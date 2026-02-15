@@ -17,7 +17,8 @@ router.post('/analyze', async (req, res) => {
 // Get career roadmap
 router.get('/roadmap', async (req, res) => {
     try {
-        const userId = req.user.id // Assuming auth middleware
+        const userId = req.user?.id || req.query.userId
+        if (!userId) return res.status(400).json({ error: 'userId is required' })
         const roadmap = await careerService.getRoadmap(userId)
         res.json(roadmap)
     } catch (error) {

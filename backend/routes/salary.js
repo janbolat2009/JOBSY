@@ -28,16 +28,43 @@ router.post('/estimate', async (req, res) => {
         py.stdin.end()
 
         py.on('close', (code) => {
-            if (code !== 0) return res.status(500).json({ error: 'Fail' })
+            if (code !== 0) {
+                console.warn('Python salary calculation failed, using fallback')
+                return res.json(getSalaryFallback(title, city, experience_years))
+            }
             try {
                 res.json(JSON.parse(output.trim()))
             } catch (e) {
-                res.status(500).json({ error: 'Fail' })
+                res.json(getSalaryFallback(title, city, experience_years))
             }
         })
     } catch (error) {
-        res.status(500).json({ error: error.message })
+        console.error('Salary error:', error)
+        res.json(getSalaryFallback(req.body.title, req.body.city, req.body.experience_years))
     }
 })
+
+function getSalaryFallback(title, city, exp) {
+    const isSenior = /senior|lead|architect/i.test(title)
+    const isMid = /mid|middle/i.test(title)
+    const isJunior = /junior/i.test(title)
+
+    let base = 300000
+    if (isSenior) base = 800000
+    else if (isMid) base = 500000
+
+    if (exp > 5) base *= 1.5
+    else if (exp > 2) base *= 1.2
+
+    const low = Math.round(base * 0.8)
+    const high = Math.round(base * 1.3)
+
+    return {
+        low,
+        high,
+        currency: '₸',
+        is_fallback: true
+    }
+}
 
 export default router

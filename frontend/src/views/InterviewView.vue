@@ -188,6 +188,7 @@ const user = computed(() => authStore.user)
 
 const loading = ref(true)
 const error = ref(null)
+const API_BASE = '/api'
 const interview = ref(null)
 const messages = ref([])
 const displayedMessages = ref([])

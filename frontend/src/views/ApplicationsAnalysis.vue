@@ -116,6 +116,7 @@
   const analyses = ref([])
   const analyzing = ref(false)
   const jobId = ref(null)
+  const API_BASE = '/api'
   
   const loadAnalyses = async (id) => {
     jobId.value = id

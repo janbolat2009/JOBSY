@@ -133,4 +133,44 @@ router.get('/application/:applicationId', async (req, res) => {
   }
 })
 
+router.get('/applications/:jobId/analysis', async (req, res) => {
+  try {
+    const { jobId } = req.params
+
+    const { data: apps, error: appError } = await req.supabase
+      .from('applications')
+      .select(`
+        id,
+        candidate_profiles (user_id),
+        users (name),
+        jobs (title)
+      `)
+      .eq('job_id', jobId)
+
+    if (appError) throw appError
+
+    const appIds = apps.map(app => app.id)
+
+    const { data: analyses, error: analysisError } = await req.supabase
+      .from('resume_analyses')
+      .select('*')
+      .in('application_id', appIds)
+
+    const result = apps.map(app => {
+      const analysis = analyses.find(a => a.application_id === app.id)
+      return {
+        application_id: app.id,
+        candidate_name: app.users.name,
+        job_title: app.jobs.title,
+        analysis: analysis ? JSON.parse(analysis.analysis || '{}') : null
+      }
+    })
+
+    res.json({ analyses: result })
+  } catch (error) {
+    console.error('Batch analysis fetch error:', error)
+    res.status(500).json({ error: error.message })
+  }
+})
+
 export default router
