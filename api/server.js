@@ -5,7 +5,8 @@ import matchingRoutes from '../backend/routes/matching.js'
 import aiRoutes from '../backend/routes/ai.js'
 import resumeAnalysisRoutes from '../backend/routes/resume-analysis.js'
 import applicationsRoutes from '../backend/routes/applications.js'
-import predictRoutes from '../backend/routes/predict.js'
+// import predictRoutes from '../backend/routes/predict.js' // Disabled on Vercel (requires Python)
+import recommendationsRoutes from '../backend/routes/recommendations.js'
 import interviewRoutes from '../backend/routes/interview.js'
 import profileRoutes from '../backend/routes/profile.js'
 import salaryRoutes from '../backend/routes/salary.js'
@@ -36,7 +37,8 @@ app.use('/api/ai', aiRoutes)
 app.use('/api/resume-analysis', resumeAnalysisRoutes)
 app.use('/api/profile', profileRoutes)
 app.use('/api/applications', applicationsRoutes)
-app.use('/api/predict', predictRoutes)
+// app.use('/api/predict', predictRoutes) // Disabled on Vercel
+app.use('/api/predict', recommendationsRoutes) // Fallback recommendations
 app.use('/api/interview', interviewRoutes)
 app.use('/api/career', careerRoutes)
 app.use('/api/salary', salaryRoutes)

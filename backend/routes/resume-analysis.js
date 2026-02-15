@@ -13,6 +13,13 @@ const openai = new OpenAI({
 
 router.post('/analyze-resume', async (req, res) => {
   try {
+    if (!process.env.OPENAI_API_KEY) {
+      return res.status(500).json({
+        error: 'OpenAI API key not configured',
+        details: 'Check OPENAI_API_KEY environment variable'
+      })
+    }
+
     const { resume_text, resume_url, target_job, experience_years } = req.body
 
     if (!resume_text && !resume_url) {

@@ -5,6 +5,13 @@ const router = express.Router()
 
 router.get('/candidate/:userId', async (req, res) => {
   try {
+    if (!supabaseAdmin) {
+      return res.status(500).json({
+        error: 'Database client not initialized',
+        details: 'Check SUPABASE_URL and SUPABASE_SERVICE_KEY environment variables'
+      })
+    }
+
     const { userId } = req.params
     const { data: profile, error: profileError } = await supabaseAdmin
       .from('candidate_profiles')
@@ -29,6 +36,7 @@ router.get('/candidate/:userId', async (req, res) => {
 
     res.json({ ...profile, skills: skills || [], experience: experience || [] })
   } catch (error) {
+    console.error('Profile fetch error:', error)
     res.status(500).json({ error: error.message })
   }
 })
