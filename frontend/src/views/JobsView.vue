@@ -127,7 +127,7 @@ const loadJobs = async () => {
   try {
     const { data: profile } = await supabase.from('candidate_profiles').select('id').eq('user_id', user.value.id).single()
     if (profile) {
-      const res = await fetch(`/api/predict/recommendations/${profile.id}`)
+      const res = await fetch(`${API_BASE}/predict/recommendations/${profile.id}`)
       const data = await res.json()
       if (Array.isArray(data)) {
         jobs.value = data.map(j => ({

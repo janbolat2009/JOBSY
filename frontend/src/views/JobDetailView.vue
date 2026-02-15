@@ -154,7 +154,7 @@ const loadPrediction = async () => {
   try {
     let { data: profile } = await supabase.from('candidate_profiles').select('id').eq('user_id', user.value.id).single()
     if (!profile) {
-      const resp = await fetch('/api/profile/candidate', {
+      const resp = await fetch(`${API_BASE}/profile/candidate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.value.id })
@@ -163,7 +163,7 @@ const loadPrediction = async () => {
     }
     if (profile?.id) {
       candidateId.value = profile.id
-      const res = await fetch('/api/predict/candidate-job', {
+      const res = await fetch(`${API_BASE}/predict/candidate-job`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ candidate_id: profile.id, job_id: route.params.id })
@@ -177,7 +177,7 @@ const loadPrediction = async () => {
 const submitApplication = async () => {
   submitting.value = true
   try {
-    const res = await fetch('/api/applications/submit', {
+    const res = await fetch(`${API_BASE}/applications/submit`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

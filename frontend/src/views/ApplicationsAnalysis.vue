@@ -153,7 +153,7 @@
     analyzing.value = true
   
     try {
-      const response = await fetch('/api/resume-analysis/applications/' + jobId.value + '/analysis', {
+      const response = await fetch(`${API_BASE}/resume-analysis/applications/${jobId.value}/analysis`, {
         method: 'GET'
       })
   
@@ -179,7 +179,7 @@
     analyzing.value = true
   
     try {
-      const response = await fetch('/api/resume-analysis/analyze-resume', {
+      const response = await fetch(`${API_BASE}/resume-analysis/analyze-resume`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

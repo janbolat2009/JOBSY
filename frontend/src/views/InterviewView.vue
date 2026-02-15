@@ -246,7 +246,7 @@ const loadInterview = async () => {
   loading.value = true
   
   try {
-    const response = await fetch(`/api/interview/${route.params.id}`)
+    const response = await fetch(`${API_BASE}/interview/${route.params.id}`)
     const data = await response.json()
     
     interview.value = data
@@ -295,7 +295,7 @@ const loadInterview = async () => {
 const startNewInterview = async () => {
   aiThinking.value = true
   try {
-    const response = await fetch('/api/interview/start', {
+    const response = await fetch(`${API_BASE}/interview/start`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ interview_id: interview.value?.id || route.params.id })
@@ -335,7 +335,7 @@ const sendMessage = async () => {
   aiThinking.value = true
   
   try {
-    const response = await fetch('/api/interview/message', {
+    const response = await fetch(`${API_BASE}/interview/message`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -368,7 +368,7 @@ const completeInterview = async () => {
   loading.value = true
   
   try {
-    const response = await fetch('/api/interview/complete', {
+    const response = await fetch(`${API_BASE}/interview/complete`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ interview_id: interview.value?.id || route.params.id })

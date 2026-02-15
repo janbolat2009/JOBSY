@@ -218,7 +218,7 @@ const generateWithAI = async () => {
   if (!aiBrief.value) return
   generating.value = true
   try {
-    const res = await fetch('/api/ai/generate-job-desc', {
+    const res = await fetch(`${API_BASE}/ai/generate-job-desc`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ brief: aiBrief.value })
@@ -253,7 +253,7 @@ let realtimeSubscription = null
 const updateSalaryEstimate = async () => {
   if (newJob.value.title.length < 3) return
   try {
-    const res = await fetch('/api/salary/estimate', {
+    const res = await fetch(`${API_BASE}/salary/estimate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newJob.value)

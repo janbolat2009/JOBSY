@@ -232,7 +232,7 @@ const analyzeResume = async () => {
   analysis.value = null
 
   try {
-    const response = await fetch('/api/resume-analysis/analyze-resume', {
+    const response = await fetch(`${API_BASE}/resume-analysis/analyze-resume`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
