@@ -255,10 +255,20 @@ const loadRecommendedJobs = async () => {
   loading.value = true
   try {
     const resProfile = await fetch(`${API_BASE}/profile/candidate/${user.value.id}`)
+    if (!resProfile.ok) {
+      const text = await resProfile.text()
+      console.error('Profile fetch failed:', resProfile.status, text)
+      throw new Error(`Server returned ${resProfile.status}`)
+    }
     const profile = await resProfile.json()
     
     if (profile?.id) {
       const res = await fetch(`${API_BASE}/predict/recommendations/${profile.id}`)
+      if (!res.ok) {
+        const text = await res.text()
+        console.error('Recs fetch failed:', res.status, text)
+        throw new Error(`Server returned ${res.status}`)
+      }
       const data = await res.json()
       recommendedJobs.value = data.map(job => ({
         id: job.id,

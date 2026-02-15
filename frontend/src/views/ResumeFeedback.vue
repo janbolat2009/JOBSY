@@ -233,14 +233,20 @@ const analyzeResume = async () => {
 
   try {
     const response = await fetch('/api/resume-analysis/analyze-resume', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         resume_text: resumeText.value,
         target_job: targetJob.value || null,
         experience_years: experienceYears.value || 0
       })
     })
+
+    if (!response.ok) {
+      const text = await response.text()
+      console.error('Analysis fetch failed:', response.status, text)
+      throw new Error(`Server returned ${response.status}: ${text.slice(0, 100)}`)
+    }
 
     const result = await response.json()
 

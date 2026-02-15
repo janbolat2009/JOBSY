@@ -15,7 +15,7 @@ router.post('/estimate', async (req, res) => {
 
         const scriptPath = path.join(__dirname, '../../ml/salary_calculator.py')
         const mlDir = path.join(__dirname, '../../ml')
-        const pythonExec = 'C:\\Users\\lenovo\\JOBSY\\ml\\.venv\\Scripts\\python.exe'
+        const pythonExec = process.env.PYTHON_PATH || 'python'
         const py = spawn(pythonExec, [scriptPath], { cwd: mlDir })
 
         let output = ''

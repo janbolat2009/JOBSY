@@ -8,9 +8,7 @@ const pdfParse = require('pdf-parse')
 
 const router = express.Router()
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-  organization: 'org-твой-org-id',     // ← добавь
-  project: 'proj_твой-project-id'      // ← обязательно!
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 router.post('/analyze-resume', async (req, res) => {

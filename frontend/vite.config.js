@@ -20,9 +20,8 @@ export default defineConfig({
     port: 5173,
     open: true,
     proxy: {
-      // Все запросы, начинающиеся с /api, проксируются на бэкенд
-      '^/api': {
-        target: 'http://localhost:3000',
+      '/api': {
+        target: 'http://127.0.0.1:3000',
         changeOrigin: true,
         secure: false
       }
