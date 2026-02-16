@@ -1,0 +1,5 @@
+[build]
+providers = ["node"]
+
+[start]
+cmd = "npm start"

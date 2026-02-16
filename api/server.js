@@ -24,13 +24,12 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+// Inject supabase to request if available
 app.use((req, res, next) => {
-    if (!supabase) {
-        return res.status(500).json({ error: 'Supabase client not initialized. Check your environment variables.' })
-    }
     req.supabase = supabase
     next()
 })
+
 
 app.use('/api/matching', matchingRoutes)
 app.use('/api/ai', aiRoutes)
