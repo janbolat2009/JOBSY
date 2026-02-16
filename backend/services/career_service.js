@@ -1,8 +1,12 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.SUPABASE_URL
-const supabaseKey = process.env.SUPABASE_SERVICE_KEY
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY
+
+const supabase = (supabaseUrl && supabaseKey)
+    ? createClient(supabaseUrl, supabaseKey)
+    : null
+
 
 export async function analyzeCareer(userProfile, marketData) {
     // TODO: Call Python ML service at /ml/career/analyze
@@ -21,6 +25,7 @@ export async function analyzeCareer(userProfile, marketData) {
 }
 
 export async function getRoadmap(userId) {
+    if (!supabase) throw new Error('Supabase client not initialized')
     const { data, error } = await supabase
         .from('career_roadmaps')
         .select('*')
@@ -32,6 +37,7 @@ export async function getRoadmap(userId) {
 }
 
 export async function completeMilestone(milestoneId) {
+    if (!supabase) throw new Error('Supabase client not initialized')
     const { data, error } = await supabase
         .from('career_roadmaps')
         .update({ completed: true })
