@@ -1,9 +1,9 @@
 import OpenAI from 'openai'
 
+// Initialize OpenAI client only if API key is present
 const openai = process.env.OPENAI_API_KEY
   ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
   : null
-
 
 export async function generateQuestionsWithAI(job) {
   const prompt = `Ты опытный HR-специалист. Создай 5 вопросов для интервью на позицию "${job.title}".
@@ -32,6 +32,11 @@ ${job.description}
 ]`
 
   try {
+    if (!openai) {
+      console.warn('OpenAI API Key missing, using fallback questions')
+      return generateFallbackQuestions(job)
+    }
+
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
@@ -84,6 +89,11 @@ export async function evaluateAnswerWithAI(question, answer) {
 }`
 
   try {
+    if (!openai) {
+      console.warn('OpenAI API Key missing, using fallback evaluation')
+      return evaluateFallback(question, answer)
+    }
+
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
@@ -137,6 +147,11 @@ ${answersText}
 }`
 
   try {
+    if (!openai) {
+      console.warn('OpenAI API Key missing, using fallback feedback')
+      return generateFallbackFeedback(answers)
+    }
+
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [

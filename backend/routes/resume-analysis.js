@@ -7,13 +7,14 @@ const require = createRequire(import.meta.url)
 const pdfParse = require('pdf-parse')
 
 const router = express.Router()
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
+const openai = process.env.OPENAI_API_KEY
+  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+  : null
+
 
 router.post('/analyze-resume', async (req, res) => {
   try {
-    if (!process.env.OPENAI_API_KEY) {
+    if (!openai) {
       return res.status(500).json({
         error: 'OpenAI API key not configured',
         details: 'Check OPENAI_API_KEY environment variable'
