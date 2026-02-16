@@ -3,13 +3,19 @@ import OpenAI from 'openai'
 import axios from 'axios'
 import { createRequire } from 'module'
 
-const require = createRequire(import.meta.url)
-const pdfParse = require('pdf-parse')
+let pdfParse = null
+try {
+  const require = createRequire(import.meta.url)
+  pdfParse = require('pdf-parse')
+} catch (err) {
+  console.warn('pdf-parse module not available:', err.message)
+}
 
 const router = express.Router()
 const openai = process.env.OPENAI_API_KEY
   ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
   : null
+
 
 
 router.post('/analyze-resume', async (req, res) => {
@@ -39,6 +45,12 @@ router.post('/analyze-resume', async (req, res) => {
         const buffer = Buffer.from(response.data)
 
         if (resume_url.toLowerCase().endsWith('.pdf')) {
+          if (!pdfParse) {
+            return res.status(500).json({
+              error: 'PDF parsing not available',
+              details: 'pdf-parse module failed to load or is not installed'
+            })
+          }
           const pdfData = await pdfParse(buffer)
           fullResumeText = pdfData.text
         } else {
