@@ -27,15 +27,28 @@ router.post('/estimate', async (req, res) => {
         py.stdin.write(JSON.stringify({ title, city, experience_years }))
         py.stdin.end()
 
+        py.on('error', (err) => {
+            console.warn('Python start failed (likely missing python), using fallback:', err.message)
+            return res.json(getSalaryFallback(title, city, experience_years))
+        })
+
         py.on('close', (code) => {
             if (code !== 0) {
                 console.warn('Python salary calculation failed, using fallback')
-                return res.json(getSalaryFallback(title, city, experience_years))
+                // Check if headers already sent to avoid double-send
+                if (!res.headersSent) {
+                    return res.json(getSalaryFallback(title, city, experience_years))
+                }
+                return
             }
             try {
-                res.json(JSON.parse(output.trim()))
+                if (!res.headersSent) {
+                    res.json(JSON.parse(output.trim()))
+                }
             } catch (e) {
-                res.json(getSalaryFallback(title, city, experience_years))
+                if (!res.headersSent) {
+                    res.json(getSalaryFallback(title, city, experience_years))
+                }
             }
         })
     } catch (error) {

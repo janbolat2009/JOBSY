@@ -67,8 +67,8 @@ app.post('/api/ai/generate-job-desc', async (req, res) => {
                     {"title": "название", "description": "краткое описание с html", "skills": ["скилл1"], "experience_years": 2, "city": "Астана"}`
                 }]
             }]
-        }, { timeout: 15000 }).catch(err => {
-            console.error('Gemini API Error:', err.message)
+        }, { timeout: 9000 }).catch(err => {
+            console.error('Gemini API Error (timeout or network):', err.message)
             return { data: { error: true } }
         })
 

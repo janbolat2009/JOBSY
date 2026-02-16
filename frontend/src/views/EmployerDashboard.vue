@@ -222,7 +222,10 @@ const generateWithAI = async () => {
   try {
     const res = await fetch(`${API_BASE}/ai/generate-job-desc`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
       body: JSON.stringify({ brief: aiBrief.value })
     })
     
