@@ -6,7 +6,10 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const router = express.Router()
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+
+const openai = process.env.OPENAI_API_KEY
+  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+  : null
 
 router.post('/invite', async (req, res) => {
   try {
@@ -158,6 +161,13 @@ ${application.jobs.ai_instructions ? `\n\nДОПОЛНИТЕЛЬНЫЕ ИНСТ�
 
 Начни с приветствия, кратко упомяни компанию и позицию, и задай первый вопрос об опыте кандидата. Твоя цель — глубоко понять квалификацию кандидата. ${application.jobs.ai_instructions ? 'Придерживайся инструкций работодателя относительно твоего стиля общения и вопросов.' : 'Будь вежлив, но профессионален.'}`
 
+    if (!openai) {
+      return res.status(503).json({
+        error: 'AI service unavailable',
+        details: 'OpenAI API key not configured'
+      })
+    }
+
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [
@@ -209,6 +219,13 @@ router.post('/message', async (req, res) => {
 
     const conversationHistory = interview.conversation_history || []
     conversationHistory.push({ role: 'user', content: message })
+
+    if (!openai) {
+      return res.status(503).json({
+        error: 'AI service unavailable',
+        details: 'OpenAI API key not configured'
+      })
+    }
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
@@ -267,6 +284,13 @@ router.post('/complete', async (req, res) => {
     Отвечай только валидным JSON.`
 
     conversationHistory.push({ role: 'user', content: evaluationPrompt })
+
+    if (!openai) {
+      return res.status(503).json({
+        error: 'AI service unavailable',
+        details: 'OpenAI API key not configured'
+      })
+    }
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
